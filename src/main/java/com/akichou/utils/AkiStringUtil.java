@@ -1,5 +1,9 @@
 package com.akichou.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * AkiStringUtil - Common string handling methods.
  */
@@ -378,6 +382,425 @@ public final class AkiStringUtil {
         if (isBlank(targetStr)) return targetStr ;
 
         return targetStr.replaceAll("\\s+", "") ;
+    }
+
+    /**
+     * Chop the specific left part of targetStr.
+     * @param targetStr Target string instance.
+     * @param choppedString string chopped from targetStr.
+     * @return  Chop the specific left part of targetStr with the indicated choppedString.
+     */
+    public static String chopStart(String targetStr, String choppedString) {
+
+        if (isBlank(targetStr) || isBlank(choppedString)) return targetStr ;
+
+        if (targetStr.startsWith(choppedString)) return targetStr.substring(choppedString.length()) ;
+
+        return targetStr ;
+    }
+
+    /**
+     * Chop the specific right part of targetStr.
+     * @param targetStr Target string instance.
+     * @param choppedString string chopped from targetStr.
+     * @return Chop the specific right part of targetStr with the indicated choppedString.
+     */
+    public static String chopEnd(String targetStr, String choppedString) {
+
+        if (isBlank(targetStr) || isBlank(choppedString)) return targetStr ;
+
+        if (targetStr.endsWith(choppedString)) return targetStr.substring(0, targetStr.length() - choppedString.length()) ;
+
+        return targetStr ;
+    }
+
+    /**
+     * Compare string by instance.
+     * @param targetStr Target string instance.
+     * @param comparedStr Compared string instance.
+     * @return Return true if targetStr and comparedStr are the same instance.
+     */
+    public static boolean equalsByInstance(String targetStr, String comparedStr) {
+
+        return targetStr == comparedStr ;
+    }
+
+    /**
+     * Compare string by value.
+     * @param targetStr Target string instance.
+     * @param comparedStr Compared string instance.
+     * @return Return true if targetStr and comparedStr have the same actual value.
+     */
+    public static boolean equalsByValue(String targetStr, String comparedStr) {
+
+        if (targetStr == null) return comparedStr == null ;
+
+        return targetStr.equals(comparedStr) ;
+    }
+
+    /**
+     * Compare string by value ignore case.
+     * @param targetStr Target string instance.
+     * @param comparedStr Compared string instance
+     * @return Return true if targetStr and ComparedStr have the same actual value but ignore case
+     */
+    public static boolean equalsIgnoreCaseByValue(String targetStr, String comparedStr) {
+
+        if (targetStr == null) return comparedStr == null ;
+
+        return targetStr.equalsIgnoreCase(comparedStr) ;
+    }
+
+    /**
+     * Fetch char by index
+     * @param targetStr Target string instance
+     * @param index Indicated index
+     * @return Fetch the char from targetStr by indicated index
+     */
+    public static char getByIndex(String targetStr, int index) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        if (index < 0 || index >= targetStr.length()) throw new IndexOutOfBoundsException("Index out of bounds") ;
+
+        return targetStr.charAt(index) ;
+    }
+
+    /**
+     * Fetch string by indexes
+     * @param targetStr Target string instance
+     * @param indexes indicated index array
+     * @return Fetch a formatted display string from targetStr by indicated index array
+     */
+    public static String[] getByIndex(String targetStr, int[] indexes) {
+
+        if (targetStr == null || indexes == null) throw new IllegalArgumentException("Target string or indexes cannot be null") ;
+
+        for (int index : indexes) {
+
+            if (index < 0 || index >= targetStr.length()) throw new IndexOutOfBoundsException("Index out of bounds: " + index) ;
+        }
+
+        String[] result = new String[indexes.length] ;
+        for (int i = 0 ; i < indexes.length ; i ++) {
+
+            result[i] = String.valueOf(targetStr.charAt(indexes[i])) ;
+        }
+
+        return result ;
+    }
+
+    /**
+     * Fetch index of char
+     * @param targetStr Target string instance
+     * @param chara indicated char
+     * @return Fetch the 1st index of the indicated char
+     */
+    public static int getIndexByChar(String targetStr, char chara) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        return targetStr.indexOf(chara) ;
+    }
+
+    /**
+     * Fetch all indexes of char
+     * @param targetStr Target string instance
+     * @param chara indicated char
+     * @return Fetch all indexes of the indicated char
+     */
+    public static int[] getIndexesByChar(String targetStr, char chara) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        // Dynamically manage the size via list-to-array
+        List<Integer> indexList = new ArrayList<>() ;
+        for (int i = 0 ; i < targetStr.length() ; i ++) {
+
+            if (targetStr.charAt(i) == chara) indexList.add(i) ;
+        }
+
+        int[] indexes = new int[indexList.size()] ;
+        for (int i = 0 ; i < indexList.size() ; i ++) {
+
+            indexes[i] = indexList.get(i) ;
+        }
+
+        return indexes ;
+    }
+
+    /**
+     * Does targetStr contains substring
+     * @param targetStr Target string instance
+     * @param substring Sub-string instance
+     * @return Return true if targetStr contains substring, false otherwise.
+     */
+    public static boolean contains(String targetStr, String substring) {
+
+        if (targetStr == null) return substring == null ;
+
+        return targetStr.contains(substring) ;
+    }
+
+    /**
+     * Does targetStr contain substring (ignore case)
+     * @param targetStr Target string instance
+     * @param substring Sub-string instance
+     * @return Return true if targetStr contains substring (ignore case), false otherwise.
+     */
+    public static boolean containsIgnoreCase(String targetStr, String substring) {
+
+        if (targetStr == null) return substring == null ;
+
+        return targetStr.toLowerCase().contains(substring.toLowerCase()) ;
+    }
+
+    /**
+     * Fetch substring by char
+     * @param targetStr Target string instance
+     * @param fromChar Start char
+     * @param toChar End char
+     * @return Fetch the substring by indicated from-char and to-char(included)
+     */
+    public static String substringByChars(String targetStr, char fromChar, char toChar) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        int fromIndex = targetStr.indexOf(fromChar) ;
+        int toIndex = targetStr.indexOf(toChar) ;
+
+        if (fromIndex == -1 || toIndex == -1) throw new IllegalArgumentException("Characters not found in target string") ;
+
+        if (fromIndex > toIndex) throw new IllegalArgumentException("From-char-index cannot bigger than to-char-index") ;
+
+        return targetStr.substring(fromIndex, toIndex + 1) ;
+    }
+
+    /**
+     * Fetch substring by index
+     * @param targetStr Target string instance
+     * @param fromIndex Start index
+     * @param toIndex End index
+     * @return Fetch the substring by indicated from-index and to-index(included)
+     */
+    public static String substringByIndex(String targetStr, int fromIndex, int toIndex) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        if (fromIndex < 0 || toIndex >= targetStr.length()) throw new IndexOutOfBoundsException("Index out of bounds") ;
+
+        if (fromIndex > toIndex) throw new IllegalArgumentException("From-index cannot bigger than to-index") ;
+
+        return targetStr.substring(fromIndex, toIndex + 1) ;
+    }
+
+    /**
+     * Split the target string by the specified split symbol, treating consecutive split symbols as one
+     * @param targetStr Target string instance
+     * @param splitSymbol Split symbol
+     * @return Array of substrings split by the specified split symbol
+     *
+     * <pre>
+     * {@code
+     *     .splitBy("aa--bb---cc----dd", "--")  -->
+     *     [aa, bb, -cc, dd]
+     *
+     *     .splitBy("aa--bb---cc----dd", "---")  -->
+     *     [aa--bb, cc, -dd]
+     * }
+     * </pre>
+     */
+    public static String[] splitBy(String targetStr, String splitSymbol) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+        targetStr = targetStr.trim() ;
+
+
+        if (splitSymbol == null || splitSymbol.isEmpty()) {
+
+            throw new IllegalArgumentException("Split symbol cannot be null or empty") ;
+        }
+
+        ArrayList<String> stringList = new ArrayList<>() ;
+
+        int substringStartIndex = 0 ;
+        int splitSymbolLen = splitSymbol.length() ;
+        for (int i = 0 ; i <= targetStr.length() - splitSymbolLen ; i ++) {
+
+            if (targetStr.startsWith(splitSymbol, i)) {
+
+                if (substringStartIndex != i) stringList.add(targetStr.substring(substringStartIndex, i)) ;
+
+                substringStartIndex = i + splitSymbolLen ;
+
+                i += splitSymbolLen - 1 ;
+            }
+        }
+
+        // Add the last part of the string
+        if (substringStartIndex < targetStr.length()) {
+
+            stringList.add(targetStr.substring(substringStartIndex)) ;
+        }
+
+        return stringList.toArray(new String[0]) ;
+    }
+
+    /**
+     * Split the target string by the specified split symbol, treating consecutive split symbols as one
+     * @param targetStr Target string instance
+     * @param splitSymbol Split symbol
+     * @param limit Maximum number of substrings to return
+     * @return Array of substrings ( len == limit ) split by the specified split symbol
+     *
+     * <pre>
+     * {@code
+     *     .splitBy("aa--bb---cc----dd", "--", 2)  -->
+     *     [aa, bb]
+     *
+     *     .splitBy("aa--bb---cc----dd", "--", 4)  -->
+     *     [aa, bb, -cc, dd]
+     * }
+     * </pre>
+     */
+    public static String[] splitBy(String targetStr, String splitSymbol, int limit) {
+
+        if (limit <= 0) throw new IllegalArgumentException("Limit must be a positive number") ;
+
+        String[] stringArray = splitBy(targetStr, splitSymbol) ;
+
+        return Arrays.stream(stringArray).limit(limit).toArray(String[]::new) ;
+    }
+
+    /**
+     * Replace all occurrences of the specified character with a new character
+     * @param targetStr Target string instance
+     * @param oldChar Old character to be replaced
+     * @param newChar New character to do replacing
+     * @return String with all occurrences of the old character replaced by the new character
+     */
+    public static String replaceChar(String targetStr, char oldChar, char newChar) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        return targetStr.replace(oldChar, newChar) ;
+    }
+
+    /**
+     * Replace all occurrences of the specified string with a new string
+     * @param targetStr Target string instance
+     * @param oldStr Old string to be replaced
+     * @param newStr New string to do replacing
+     * @return String with all occurrences of the old string replaced by the new string
+     */
+    public static String replaceString(String targetStr, String oldStr, String newStr) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        return targetStr.replace(oldStr, newStr) ;
+    }
+
+    /**
+     * Replace the first occurrence of the specified character with a new character
+     * @param targetStr Target string instance
+     * @param oldChar Old character to be replaced
+     * @param newChar New character to do replacing
+     * @return String with the first occurrence of the old character replaced by the new character
+     */
+    public static String replaceFirstChar(String targetStr, char oldChar, char newChar) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        return targetStr.replaceFirst(String.valueOf(oldChar), String.valueOf(newChar)) ;
+    }
+
+    /**
+     * Replace the first occurrence of the specified string with a new string
+     * @param targetStr Target string instance
+     * @param oldStr Old string to be replaced
+     * @param newStr New string to do replacing
+     * @return String with the first occurrence of the old string replaced by the new string
+     */
+    public static String replaceFirstString(String targetStr, String oldStr, String newStr) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        return targetStr.replaceFirst(oldStr, newStr) ;
+    }
+
+    /**
+     * Remove the first occurrence of the specified character
+     * @param targetStr Target string instance
+     * @param chara Character to remove
+     * @return String with the first occurrence of the specified character removed
+     */
+    public static String removeFirst(String targetStr, char chara) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        int charaIndex = targetStr.indexOf(chara) ;
+        if (charaIndex == -1) return targetStr ;
+
+        return targetStr.substring(0, charaIndex) + targetStr.substring(charaIndex + 1) ;
+    }
+
+    /**
+     * Remove the first occurrence of the specified character, ignoring its case
+     * @param targetStr Target string instance
+     * @param chara Character to remove
+     * @return String with the first occurrence of the specified character removed, ignoring its case
+     */
+    public static String removeFirstIgnoreCase(String targetStr, char chara) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        // Make all case be lower to index
+        int charaIndex = targetStr.toLowerCase().indexOf(Character.toLowerCase(chara)) ;
+        if (charaIndex == -1) return targetStr ;
+
+        return targetStr.substring(0, charaIndex) + targetStr.substring(charaIndex + 1) ;
+    }
+
+    /**
+     * Remove all occurrences of the specified character, ignoring its case
+     * @param targetStr Target string instance
+     * @param chara Character to remove
+     * @return String with all occurrences of the specified character removed, its ignoring case
+     */
+    public static String removeAll(String targetStr, char chara) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        int charaIndex = targetStr.indexOf(chara) ;
+        if (charaIndex == -1) return targetStr ;
+
+        return targetStr.replaceAll(String.valueOf(chara), "") ;
+    }
+
+    /**
+     * Remove all occurrences of the specified character, ignoring its case
+     * @param targetStr Target string instance
+     * @param chara Character to remove
+     * @return String with all occurrences of the specified character removed, its ignoring case
+     */
+    public static String removeAllIgnoreCase(String targetStr, char chara) {
+
+        if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
+
+        StringBuilder stringBuilder = new StringBuilder() ;
+
+        char lowerChara = Character.toLowerCase(chara) ;
+        char upperChara = Character.toUpperCase(chara) ;
+        for (char c : targetStr.toCharArray()) {
+
+            // Excluding the char (!= input chara) in targetStr to achieve the goal implementation
+            if (c != lowerChara && c != upperChara) {
+
+                stringBuilder.append(c) ;
+            }
+        }
+
+        return stringBuilder.toString();
     }
 }
 

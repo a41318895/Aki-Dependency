@@ -457,7 +457,7 @@ public final class AkiStringUtil {
      * @param index Indicated index
      * @return Fetch the char from targetStr by indicated index
      */
-    public static char getByIndex(String targetStr, int index) {
+    public static char getCharByIndex(String targetStr, int index) {
 
         if (targetStr == null) throw new IllegalArgumentException("Target string cannot be null") ;
 
@@ -472,7 +472,7 @@ public final class AkiStringUtil {
      * @param indexes indicated index array
      * @return Fetch a formatted display string from targetStr by indicated index array
      */
-    public static String[] getByIndex(String targetStr, int[] indexes) {
+    public static String[] getCharByIndex(String targetStr, int[] indexes) {
 
         if (targetStr == null || indexes == null) throw new IllegalArgumentException("Target string or indexes cannot be null") ;
 

@@ -1,4 +1,4 @@
-package com.akichou.utils;
+package com.akichou.utils.log;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

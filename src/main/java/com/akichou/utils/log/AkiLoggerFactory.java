@@ -1,4 +1,4 @@
-package com.akichou.utils;
+package com.akichou.utils.log;
 
 public final class AkiLoggerFactory {
 

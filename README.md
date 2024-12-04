@@ -13,6 +13,7 @@
 - AkiStringUtil : 實現自己對於字串的常用操作方法
 - AkiResponseEntity : 自定義響應體 ( 可傳入 http code, description message, data entity)
 - AkiHttpCodeEnum : 簡易 HttpCode 枚舉類
+- AkiEntityCopyUtil : 將目標類屬性映射到另一個類屬性上
 
 ## 導入方式 :
 ### 一、導入依賴本體 :
@@ -20,7 +21,7 @@
 <dependency>
     <groupId>com.akichou</groupId>
     <artifactId>aki-common-util-starter</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 ### 二、移除 SpringBoot 默認 Logback 框架 :

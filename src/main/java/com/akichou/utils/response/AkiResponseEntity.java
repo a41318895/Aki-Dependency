@@ -15,7 +15,7 @@ public class AkiResponseEntity<T> implements Serializable {
     private T data ;
 
     // Constructors
-    private AkiResponseEntity() {}
+    public AkiResponseEntity() {}
 
     // Fields Builders
     public AkiResponseEntity<T> ok(Integer httpCode, String message, T data) {
